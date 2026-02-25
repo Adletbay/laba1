@@ -1,0 +1,10 @@
+SIGNATURE = b"PS"
+
+NULL_PTR = 1
+
+PRD_HEADER_SIZE = 2 + 2 + 4 + 4 + 16
+PRS_HEADER_SIZE = 4 + 4
+PRS_REC_SIZE = 1 + 4 + 2 + 4
+
+FS_ENCODING = "ascii"
+NAME_ENCODING = "cp1251"
