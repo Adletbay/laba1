@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-Главный модуль программы управления спецификациями.
-Поддерживает два режима работы:
-- GUI (графический интерфейс) - по умолчанию
-- CLI (командная строка) - с флагом --cli
-"""
 
 import sys
 import argparse
@@ -15,14 +9,13 @@ import os
 
 
 def check_tkinter() -> bool:
-    """Проверка наличия библиотеки tkinter"""
+    
     return importlib.util.find_spec("tkinter") is not None
 
 
 def check_gui_module() -> bool:
-    """Проверка наличия модуля gui_interface"""
+    
     try:
-        # Пробуем импортировать модуль GUI
         from ps import gui_interface
         return True
     except ImportError:
@@ -30,7 +23,6 @@ def check_gui_module() -> bool:
 
 
 def run_cli():
-    """Запуск программы в режиме командной строки (CLI)"""
     from ps.cli import PSApp
     from ps.errors import PSUserError
     from ps.help_text import HELP_TEXT
@@ -78,7 +70,7 @@ def run_cli():
 
 
 def run_gui():
-    """Запуск программы в графическом режиме (GUI)"""
+    
     from ps.gui_interface import ModernPSGUI
 
     try:
@@ -93,15 +85,13 @@ def run_gui():
 
 
 def setup_environment():
-    """Настройка окружения перед запуском"""
-    # Добавляем текущую директорию в PATH для корректного импорта
     current_dir = os.path.dirname(os.path.abspath(__file__))
     if current_dir not in sys.path:
         sys.path.insert(0, current_dir)
 
 
 def print_banner():
-    """Вывод красивого баннера"""
+   
     banner = """
 ╔══════════════════════════════════════════════════════════╗
 ║     УПРАВЛЕНИЕ СПЕЦИФИКАЦИЯМИ v1.0                       ║
@@ -117,12 +107,9 @@ def print_banner():
 
 
 def main():
-    """Главная функция программы"""
-
-    # Настройка окружения
+   
     setup_environment()
 
-    # Настройка парсера аргументов
     parser = argparse.ArgumentParser(
         description="Система управления спецификациями",
         epilog="Примеры использования:\n"
@@ -146,22 +133,16 @@ def main():
 
     args = parser.parse_args()
 
-    # Если запрошен CLI режим
     if args.cli:
         run_cli()
         return
-
-    # Иначе пытаемся запустить GUI
     print_banner()
     print("🔍 Проверка компонентов...")
 
-    # Проверяем наличие tkinter
     if not check_tkinter():
         print("⚠️  Tkinter не найден. Запуск в режиме командной строки...")
         run_cli()
         return
-
-    # Проверяем наличие GUI модуля
     if not check_gui_module():
         print("⚠️  Модуль графического интерфейса не найден. Запуск в режиме командной строки...")
         run_cli()
@@ -169,10 +150,8 @@ def main():
 
     print("✅ Все компоненты загружены. Запуск графического интерфейса...\n")
 
-    # Запускаем GUI
     success = run_gui()
 
-    # Если GUI не запустился, переключаемся на CLI
     if not success:
         print("\n⚠️  Не удалось запустить графический интерфейс.")
         choice = input("Запустить в режиме командной строки? (д/н): ").strip().lower()
