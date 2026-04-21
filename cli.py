@@ -13,7 +13,7 @@ from ps.constants import SIGNATURE
 class PSApp:
 
     def is_open(self) -> bool:
-        """Проверка, открыты ли файлы"""
+        
         return self.core.is_open()
 
 
@@ -28,7 +28,7 @@ class PSApp:
     def execute(self, line: str) -> str:
         cmd = parse_command(line)
 
-        # подтверждение Create
+        
         if self._pending_create and cmd.name in ("y", "yes", "n", "no"):
             base_name, max_len, prs_name = self._pending_create
             self._pending_create = None
@@ -80,7 +80,7 @@ class PSApp:
             if not prs_path.lower().endswith(".prs"):
                 prs_path += ".prs"
 
-            # если .prd существует - проверить сигнатуру
+            
             if os.path.exists(prd_path):
                 try:
                     with open(prd_path, "rb") as f:
@@ -94,7 +94,7 @@ class PSApp:
                 self._pending_create = (base_name, max_len, prs_name)
                 return "Файлы уже существуют и сигнатура верная. Перезаписать? (Y/N)"
 
-            # если только prs существует — тоже подтверждение
+            
             if os.path.exists(prs_path):
                 self._pending_create = (base_name, max_len, prs_name)
                 return "Файл спецификаций уже существует. Перезаписать? (Y/N)"
